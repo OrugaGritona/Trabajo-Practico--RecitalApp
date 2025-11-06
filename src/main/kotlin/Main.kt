@@ -44,7 +44,7 @@ fun main() {
 
         when (inicio) {
             MenuInicio.LOGIN -> {
-                mostrarPantallaLogin(userService)
+                loggedIn = mostrarPantallaLogin(userService)
             }
 
             MenuInicio.REGISTER -> {
