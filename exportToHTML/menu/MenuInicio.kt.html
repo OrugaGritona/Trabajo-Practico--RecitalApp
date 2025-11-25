@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>MenuInicio.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+.s4 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MenuInicio.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">menu</span>
+
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">utils</span><span class="s2">.</span><span class="s1">Emojis</span>
+
+<span class="s1">enum </span><span class="s0">class </span><span class="s1">MenuInicio</span><span class="s2">(</span><span class="s0">val </span><span class="s1">option: Int</span><span class="s2">, </span><span class="s0">val </span><span class="s1">description: String</span><span class="s2">) {</span>
+    <span class="s1">LOGIN</span><span class="s2">(</span><span class="s3">1</span><span class="s2">, </span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">CHECK</span><span class="s0">} </span><span class="s4">Login&quot;</span><span class="s2">),</span>
+    <span class="s1">REGISTER</span><span class="s2">(</span><span class="s3">2</span><span class="s2">, </span><span class="s4">&quot;🆕 Registrarse&quot;</span><span class="s2">),</span>
+    <span class="s1">EXIT</span><span class="s2">(</span><span class="s3">0</span><span class="s2">, </span><span class="s4">&quot;🚪 Salir&quot;</span><span class="s2">);</span>
+
+    <span class="s1">companion </span><span class="s0">object </span><span class="s2">{</span>
+        <span class="s0">fun </span><span class="s1">election </span><span class="s2">(</span><span class="s1">value: Int</span><span class="s2">)</span><span class="s1">: MenuInicio? </span><span class="s2">{</span>
+            <span class="s0">return </span><span class="s1">values</span><span class="s2">().</span><span class="s1">find </span><span class="s2">{ </span><span class="s1">it</span><span class="s2">.</span><span class="s1">option </span><span class="s2">== </span><span class="s1">value </span><span class="s2">}</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<html>
+<head>
+<title>Main.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Main.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">main</span><span class="s2">.</span><span class="s1">kotlin</span>
+
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">data</span><span class="s2">.</span><span class="s1">User</span>
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">menu</span><span class="s2">.</span><span class="s1">MenuInicio</span>
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">menu</span><span class="s2">.</span><span class="s1">MenuOption</span>
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">payments</span><span class="s2">.</span><span class="s1">MasterCard</span>
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">payments</span><span class="s2">.</span><span class="s1">MercadoPago</span>
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">payments</span><span class="s2">.</span><span class="s1">Visa</span>
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">repositories</span><span class="s2">.</span><span class="s1">EventRepository</span>
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">repositories</span><span class="s2">.</span><span class="s1">TicketCollectionRepository</span>
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">repositories</span><span class="s2">.</span><span class="s1">TicketRepository</span>
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">repositories</span><span class="s2">.</span><span class="s1">UserRepository</span>
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">services</span><span class="s2">.</span><span class="s1">TicketService</span>
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">services</span><span class="s2">.</span><span class="s1">UserService</span>
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">utils</span><span class="s2">.</span><span class="s1">Emojis</span>
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">utils</span><span class="s2">.</span><span class="s1">ConsolaPrinter</span>
+<span class="s1">import java</span><span class="s2">.</span><span class="s1">time</span><span class="s2">.</span><span class="s1">LocalDate</span>
+<span class="s1">import kotlin</span><span class="s2">.</span><span class="s1">coroutines</span><span class="s2">.</span><span class="s1">Continuation</span>
+
+<span class="s0">fun </span><span class="s1">main</span><span class="s2">() {</span>
+    <span class="s3">// Repositorios</span>
+    <span class="s0">val </span><span class="s1">userRepo </span><span class="s2">= </span><span class="s1">UserRepository</span>
+    <span class="s0">val </span><span class="s1">eventRepo </span><span class="s2">= </span><span class="s1">EventRepository</span>
+    <span class="s0">val </span><span class="s1">ticketRepo </span><span class="s2">= </span><span class="s1">TicketRepository</span>
+    <span class="s0">val </span><span class="s1">ticketCollectionRepo </span><span class="s2">= </span><span class="s1">TicketCollectionRepository</span>
+
+    <span class="s3">// Servicios</span>
+    <span class="s0">val </span><span class="s1">userService </span><span class="s2">= </span><span class="s1">UserService</span><span class="s2">(</span><span class="s1">userRepo</span><span class="s2">)</span>
+    <span class="s0">val </span><span class="s1">ticketService </span><span class="s2">= </span><span class="s1">TicketService</span><span class="s2">(</span><span class="s1">eventRepo</span><span class="s2">, </span><span class="s1">ticketRepo</span><span class="s2">)</span>
+
+    <span class="s3">// ========================</span>
+    <span class="s3">// PANTALLA DE INICIO</span>
+    <span class="s3">// ========================</span>
+    <span class="s0">var </span><span class="s1">loggedIn </span><span class="s2">= </span><span class="s0">false</span>
+    <span class="s0">do </span><span class="s2">{</span>
+        <span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">\n${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">MUSIC</span><span class="s0">}${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">MUSIC</span><span class="s0">} </span><span class="s4">============= RECITALAPP =============&quot;</span><span class="s2">)</span>
+        <span class="s1">MenuInicio</span><span class="s2">.</span><span class="s1">values</span><span class="s2">().</span><span class="s1">forEach </span><span class="s2">{ </span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">it</span><span class="s2">.</span><span class="s1">option</span><span class="s0">}</span><span class="s4">. </span><span class="s0">${</span><span class="s1">it</span><span class="s2">.</span><span class="s1">description</span><span class="s0">}</span><span class="s4">&quot;</span><span class="s2">) }</span>
+        <span class="s1">print</span><span class="s2">(</span><span class="s4">&quot;Seleccione una opción: &quot;</span><span class="s2">)</span>
+
+
+        <span class="s0">val </span><span class="s1">opcionInicio </span><span class="s2">= </span><span class="s1">readln</span><span class="s2">().</span><span class="s1">toIntOrNull</span><span class="s2">()</span>
+        <span class="s0">val </span><span class="s1">inicio </span><span class="s2">= </span><span class="s1">MenuInicio</span><span class="s2">.</span><span class="s1">election</span><span class="s2">(</span><span class="s1">opcionInicio ?: </span><span class="s2">-</span><span class="s5">1</span><span class="s2">)</span>
+
+
+
+        <span class="s0">when </span><span class="s2">(</span><span class="s1">inicio</span><span class="s2">) {</span>
+            <span class="s1">MenuInicio</span><span class="s2">.</span><span class="s1">LOGIN </span><span class="s2">-&gt; {</span>
+                <span class="s1">mostrarPantallaLogin</span><span class="s2">(</span><span class="s1">userService</span><span class="s2">)</span>
+            <span class="s2">}</span>
+
+            <span class="s1">MenuInicio</span><span class="s2">.</span><span class="s1">REGISTER </span><span class="s2">-&gt; {</span>
+                <span class="s1">mostrarPantallaRegistro</span><span class="s2">(</span><span class="s1">userRepo</span><span class="s2">)</span>
+            <span class="s2">}</span>
+
+            <span class="s1">MenuInicio</span><span class="s2">.</span><span class="s1">EXIT </span><span class="s2">-&gt; {</span>
+                <span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">WAVE</span><span class="s0">} </span><span class="s4">Hasta pronto!&quot;</span><span class="s2">)</span>
+                <span class="s0">return</span>
+            <span class="s2">}</span>
+
+            <span class="s0">null </span><span class="s2">-&gt; </span><span class="s1">errorMsg</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">ERROR</span><span class="s0">} </span><span class="s4">Opción no válida&quot;</span><span class="s2">)</span>
+        <span class="s2">}</span>
+    <span class="s2">} </span><span class="s0">while </span><span class="s2">(!</span><span class="s1">loggedIn</span><span class="s2">)</span>
+
+    <span class="s3">// ========================</span>
+    <span class="s3">// MENÚ PRINCIPAL</span>
+    <span class="s3">// ========================</span>
+    <span class="s0">var </span><span class="s1">opcion: MenuOption?</span>
+    <span class="s0">do </span><span class="s2">{</span>
+        <span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">\n</span><span class="s4">============= MENÚ PRINCIPAL =============&quot;</span><span class="s2">)</span>
+        <span class="s1">MenuOption</span><span class="s2">.</span><span class="s1">values</span><span class="s2">().</span><span class="s1">forEach </span><span class="s2">(</span><span class="s1">imprimirOpcion</span><span class="s2">)</span>
+        <span class="s1">print</span><span class="s2">(</span><span class="s4">&quot;Seleccione una opción: &quot;</span><span class="s2">)</span>
+
+        <span class="s0">val </span><span class="s1">opcionIngresada </span><span class="s2">= </span><span class="s1">readln</span><span class="s2">().</span><span class="s1">toIntOrNull</span><span class="s2">()</span>
+        <span class="s1">opcion </span><span class="s2">= </span><span class="s0">if </span><span class="s2">(</span><span class="s1">opcionIngresada </span><span class="s2">!= </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s1">MenuOption</span><span class="s2">.</span><span class="s1">elegirOpcion</span><span class="s2">(</span><span class="s1">opcionIngresada</span><span class="s2">)</span>
+        <span class="s2">} </span><span class="s0">else null</span>
+
+        <span class="s0">when </span><span class="s2">(</span><span class="s1">opcion</span><span class="s2">) {</span>
+            <span class="s1">MenuOption</span><span class="s2">.</span><span class="s1">BUY_TICKETS </span><span class="s2">-&gt; {</span>
+                <span class="s0">val </span><span class="s1">user </span><span class="s2">= </span><span class="s1">userService</span><span class="s2">.</span><span class="s1">getLoggedUser</span><span class="s2">()</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">user </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+                    <span class="s1">errorMsg</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">WARNING</span><span class="s0">} </span><span class="s4">Primero debe iniciar sesión&quot;</span><span class="s2">)</span>
+                <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+
+                    <span class="s3">//Las funciones para mostrar los eventos, las entradas compradas y las entradas ya utilizadas</span>
+                    <span class="s3">//están dentro de la clase ConsolaPrinter</span>
+
+                    <span class="s1">ConsolaPrinter</span><span class="s2">.</span><span class="s1">mostrarCarteleraEventos</span><span class="s2">(</span><span class="s1">ticketService</span><span class="s2">.</span><span class="s1">listarEventos</span><span class="s2">())</span>
+
+                    <span class="s1">print</span><span class="s2">(</span><span class="s4">&quot;Ingrese ID del evento: &quot;</span><span class="s2">)</span>
+                    <span class="s0">val </span><span class="s1">eventoId </span><span class="s2">= </span><span class="s1">readln</span><span class="s2">().</span><span class="s1">toLongOrNull</span><span class="s2">() </span><span class="s1">?: </span><span class="s2">-</span><span class="s5">1L</span>
+
+                    <span class="s1">print</span><span class="s2">(</span><span class="s4">&quot;Cantidad de entradas: &quot;</span><span class="s2">)</span>
+                    <span class="s0">val </span><span class="s1">cantidad </span><span class="s2">= </span><span class="s1">readln</span><span class="s2">().</span><span class="s1">toIntOrNull</span><span class="s2">() </span><span class="s1">?: </span><span class="s5">0</span>
+
+                    <span class="s1">print</span><span class="s2">(</span><span class="s4">&quot;Sección: &quot;</span><span class="s2">)</span>
+                    <span class="s0">val </span><span class="s1">seccion </span><span class="s2">= </span><span class="s1">readln</span><span class="s2">()</span>
+
+                    <span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;Seleccione medio de pago: 1. MercadoPago  2. Visa  3. MasterCard&quot;</span><span class="s2">)</span>
+                    <span class="s0">val </span><span class="s1">medioPago </span><span class="s2">= </span><span class="s0">when </span><span class="s2">(</span><span class="s1">readln</span><span class="s2">().</span><span class="s1">toIntOrNull</span><span class="s2">()) {</span>
+                        <span class="s5">1 </span><span class="s2">-&gt; </span><span class="s1">MercadoPago</span><span class="s2">()</span>
+                        <span class="s5">2 </span><span class="s2">-&gt; </span><span class="s1">Visa</span><span class="s2">()</span>
+                        <span class="s5">3 </span><span class="s2">-&gt; </span><span class="s1">MasterCard</span><span class="s2">()</span>
+                        <span class="s0">else </span><span class="s2">-&gt; </span><span class="s1">MercadoPago</span><span class="s2">()</span>
+                    <span class="s2">}</span>
+
+                    <span class="s0">try </span><span class="s2">{</span>
+                        <span class="s1">ticketService</span><span class="s2">.</span><span class="s1">comprarTicket</span><span class="s2">(</span><span class="s1">user</span><span class="s2">, </span><span class="s1">eventoId</span><span class="s2">, </span><span class="s1">cantidad</span><span class="s2">, </span><span class="s1">seccion</span><span class="s2">, </span><span class="s1">medioPago</span><span class="s2">)</span>
+                        <span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">CHECK</span><span class="s0">} </span><span class="s4">Compra realizada con éxito. Su saldo restante: </span><span class="s0">${</span><span class="s1">user</span><span class="s2">.</span><span class="s1">money</span><span class="s0">}</span><span class="s4">&quot;</span><span class="s2">)</span>
+                    <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+                        <span class="s1">errorMsg</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">ERROR</span><span class="s0">} ${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s4">&quot;</span><span class="s2">)</span>
+                    <span class="s2">}</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+
+            <span class="s1">MenuOption</span><span class="s2">.</span><span class="s1">VIEW_TICKETS </span><span class="s2">-&gt; {</span>
+                <span class="s0">val </span><span class="s1">user </span><span class="s2">= </span><span class="s1">userService</span><span class="s2">.</span><span class="s1">getLoggedUser</span><span class="s2">()</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">user </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+                    <span class="s1">errorMsg</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">WARNING</span><span class="s0">} </span><span class="s4">Debe iniciar sesión primero&quot;</span><span class="s2">)</span>
+                <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                    <span class="s1">ConsolaPrinter</span><span class="s2">.</span><span class="s1">mostrarEntradasDeUsuario</span><span class="s2">(</span><span class="s1">user</span><span class="s2">, </span><span class="s1">eventRepo</span><span class="s2">)</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+
+            <span class="s1">MenuOption</span><span class="s2">.</span><span class="s1">VIEW_EVENTS </span><span class="s2">-&gt; {</span>
+                <span class="s1">ConsolaPrinter</span><span class="s2">.</span><span class="s1">mostrarCarteleraEventos</span><span class="s2">(</span><span class="s1">ticketService</span><span class="s2">.</span><span class="s1">listarEventos</span><span class="s2">())</span>
+            <span class="s2">}</span>
+
+            <span class="s1">MenuOption</span><span class="s2">.</span><span class="s1">VIEW_USED_TICKETS </span><span class="s2">-&gt; {</span>
+                <span class="s0">val </span><span class="s1">user </span><span class="s2">=</span><span class="s1">userService</span><span class="s2">.</span><span class="s1">getLoggedUser</span><span class="s2">()</span>
+                <span class="s0">if</span><span class="s2">(</span><span class="s1">user </span><span class="s2">==</span><span class="s0">null</span><span class="s2">){</span>
+                    <span class="s1">errorMsg</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">WARNING</span><span class="s0">} </span><span class="s4">Debe iniciar sesión primero&quot;</span><span class="s2">)</span>
+                <span class="s2">}</span><span class="s0">else</span><span class="s2">{</span>
+                    <span class="s1">ticketService</span><span class="s2">.</span><span class="s1">marcarticketUsado</span><span class="s2">(</span><span class="s1">user</span><span class="s2">)</span>
+                    <span class="s1">ConsolaPrinter</span><span class="s2">.</span><span class="s1">mostrarEntradasUtilizadas</span><span class="s2">(</span><span class="s1">user</span><span class="s2">, </span><span class="s1">eventRepo</span><span class="s2">)</span>
+                <span class="s2">}</span>
+
+
+            <span class="s2">}</span>
+
+            <span class="s1">MenuOption</span><span class="s2">.</span><span class="s1">EXIT </span><span class="s2">-&gt; </span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">WAVE</span><span class="s0">} </span><span class="s4">Hasta pronto!&quot;</span><span class="s2">)</span>
+            <span class="s0">null </span><span class="s2">-&gt; </span><span class="s1">errorMsg</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">ERROR</span><span class="s0">} </span><span class="s4">Opción no válida&quot;</span><span class="s2">)</span>
+        <span class="s2">}</span>
+    <span class="s2">} </span><span class="s0">while </span><span class="s2">(</span><span class="s1">opcion </span><span class="s2">!= </span><span class="s1">MenuOption</span><span class="s2">.</span><span class="s1">EXIT</span><span class="s2">)</span>
+<span class="s2">}</span>
+
+<span class="s3">// Función para imprimir errores</span>
+<span class="s0">fun </span><span class="s1">errorMsg</span><span class="s2">(</span><span class="s1">message: String</span><span class="s2">) = </span><span class="s1">System</span><span class="s2">.</span><span class="s1">err</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s1">message</span><span class="s2">)</span>
+
+
+<span class="s0">fun </span><span class="s1">mostrarPantallaLogin</span><span class="s2">(</span><span class="s1">userService: UserService</span><span class="s2">)</span><span class="s1">: Boolean </span><span class="s2">{</span>
+    <span class="s1">print</span><span class="s2">(</span><span class="s4">&quot; Ingrese su nickname: &quot;</span><span class="s2">)</span>
+    <span class="s0">val </span><span class="s1">nick </span><span class="s2">= </span><span class="s1">readln</span><span class="s2">()</span>
+    <span class="s1">print</span><span class="s2">(</span><span class="s4">&quot; Ingrese su password: &quot;</span><span class="s2">)</span>
+    <span class="s0">val </span><span class="s1">pass </span><span class="s2">= </span><span class="s1">readln</span><span class="s2">()</span>
+
+    <span class="s0">return if </span><span class="s2">(</span><span class="s1">userService</span><span class="s2">.</span><span class="s1">login</span><span class="s2">(</span><span class="s1">nick</span><span class="s2">, </span><span class="s1">pass</span><span class="s2">)) {</span>
+        <span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">CHECK</span><span class="s0">} </span><span class="s4">Bienvenido </span><span class="s0">$</span><span class="s1">nick</span><span class="s4">, login exitoso&quot;</span><span class="s2">)</span>
+        <span class="s0">true</span>
+    <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+        <span class="s1">errorMsg</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">ERROR</span><span class="s0">} </span><span class="s4">Usuario o contraseña incorrectos&quot;</span><span class="s2">)</span>
+        <span class="s0">false</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+
+<span class="s0">fun </span><span class="s1">mostrarPantallaRegistro</span><span class="s2">(</span><span class="s1">userRepo: UserRepository</span><span class="s2">) {</span>
+    <span class="s1">print</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">POINT_RIGHT</span><span class="s0">}</span><span class="s4">Ingrese nombre: &quot;</span><span class="s2">)</span>
+    <span class="s0">val </span><span class="s1">name </span><span class="s2">= </span><span class="s1">readln</span><span class="s2">()</span>
+    <span class="s1">print</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">POINT_RIGHT</span><span class="s0">}</span><span class="s4">Ingrese apellido: &quot;</span><span class="s2">)</span>
+    <span class="s0">val </span><span class="s1">surname </span><span class="s2">= </span><span class="s1">readln</span><span class="s2">()</span>
+
+    <span class="s1">print</span><span class="s2">(</span><span class="s4">&quot;Ingrese nickname: &quot;</span><span class="s2">)</span>
+    <span class="s0">val </span><span class="s1">nickname </span><span class="s2">= </span><span class="s1">readln</span><span class="s2">()</span>
+    <span class="s0">if </span><span class="s2">(</span><span class="s1">userRepo</span><span class="s2">.</span><span class="s1">registeredUser</span><span class="s2">(</span><span class="s1">nickname</span><span class="s2">)) {</span>
+        <span class="s1">errorMsg</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">ERROR</span><span class="s0">} </span><span class="s4">El nickname ya existe&quot;</span><span class="s2">)</span>
+        <span class="s0">return</span>
+    <span class="s2">}</span>
+
+    <span class="s1">print</span><span class="s2">(</span><span class="s4">&quot;Ingrese contraseña: &quot;</span><span class="s2">)</span>
+    <span class="s0">val </span><span class="s1">password </span><span class="s2">= </span><span class="s1">readln</span><span class="s2">()</span>
+
+    <span class="s1">print</span><span class="s2">(</span><span class="s4">&quot;Ingrese monto inicial: &quot;</span><span class="s2">)</span>
+    <span class="s0">val </span><span class="s1">money </span><span class="s2">= </span><span class="s1">readln</span><span class="s2">().</span><span class="s1">toDoubleOrNull</span><span class="s2">()</span>
+    <span class="s0">if </span><span class="s2">(</span><span class="s1">money </span><span class="s2">== </span><span class="s0">null </span><span class="s2">|| </span><span class="s1">money </span><span class="s2">&lt;= </span><span class="s5">0</span><span class="s2">) {</span>
+        <span class="s1">errorMsg</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">ERROR</span><span class="s0">} </span><span class="s4">El monto inicial debe ser mayor a 0&quot;</span><span class="s2">)</span>
+        <span class="s0">return</span>
+    <span class="s2">}</span>
+
+    <span class="s0">val </span><span class="s1">newId </span><span class="s2">= (</span><span class="s1">userRepo</span><span class="s2">.</span><span class="s1">getAll</span><span class="s2">().</span><span class="s1">maxOfOrNull </span><span class="s2">{ </span><span class="s1">it</span><span class="s2">.</span><span class="s1">id </span><span class="s2">} </span><span class="s1">?: </span><span class="s5">1000L</span><span class="s2">) + </span><span class="s5">1</span>
+
+    <span class="s0">val </span><span class="s1">newUser </span><span class="s2">= </span><span class="s1">User</span><span class="s2">(</span>
+        <span class="s1">id </span><span class="s2">= </span><span class="s1">newId</span><span class="s2">,</span>
+        <span class="s1">nickname </span><span class="s2">= </span><span class="s1">nickname</span><span class="s2">,</span>
+        <span class="s1">password </span><span class="s2">= </span><span class="s1">password</span><span class="s2">,</span>
+        <span class="s1">name </span><span class="s2">= </span><span class="s1">name</span><span class="s2">,</span>
+        <span class="s1">surname </span><span class="s2">= </span><span class="s1">surname</span><span class="s2">,</span>
+        <span class="s1">money </span><span class="s2">= </span><span class="s1">money</span><span class="s2">,</span>
+        <span class="s1">createdDate </span><span class="s2">= </span><span class="s1">LocalDate</span><span class="s2">.</span><span class="s1">now</span><span class="s2">().</span><span class="s1">toString</span><span class="s2">()</span>
+    <span class="s2">)</span>
+
+    <span class="s1">userRepo</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">newUser</span><span class="s2">)</span>
+    <span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">CHECK</span><span class="s0">} </span><span class="s4">Usuario registrado con éxito. ID asignado: </span><span class="s0">${</span><span class="s1">newUser</span><span class="s2">.</span><span class="s1">id</span><span class="s0">}</span><span class="s4">&quot;</span><span class="s2">)</span>
+<span class="s2">}</span>
+
+
+
+<span class="s3">//Lambda para imprimir las opciones de menú y su descripción</span>
+<span class="s1">private </span><span class="s0">val </span><span class="s1">imprimirOpcion: </span><span class="s2">(</span><span class="s1">MenuOption</span><span class="s2">) -&gt; </span><span class="s1">Unit </span><span class="s2">= { </span><span class="s1">opcion </span><span class="s2">-&gt;</span>
+    <span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">${</span><span class="s1">opcion</span><span class="s2">.</span><span class="s1">option</span><span class="s0">}</span><span class="s4">. </span><span class="s0">${</span><span class="s1">opcion</span><span class="s2">.</span><span class="s1">description</span><span class="s0">}</span><span class="s4">&quot;</span><span class="s2">)</span>
+<span class="s2">}</span>
+
+</pre>
+</body>
+</html>

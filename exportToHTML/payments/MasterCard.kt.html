@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>MasterCard.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+.s4 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MasterCard.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">payments</span>
+
+<span class="s1">import java</span><span class="s2">.</span><span class="s1">time</span><span class="s2">.</span><span class="s1">DayOfWeek</span>
+<span class="s1">import java</span><span class="s2">.</span><span class="s1">time</span><span class="s2">.</span><span class="s1">LocalDate</span>
+
+<span class="s0">class </span><span class="s1">MasterCard : MedioDePago</span><span class="s2">() {</span>
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">calcularTotal</span><span class="s2">(</span><span class="s1">montoBase: Double</span><span class="s2">)</span><span class="s1">: Double </span><span class="s2">{</span>
+        <span class="s0">val </span><span class="s1">hoy </span><span class="s2">= </span><span class="s1">LocalDate</span><span class="s2">.</span><span class="s1">now</span><span class="s2">().</span><span class="s1">dayOfWeek</span>
+        <span class="s0">val </span><span class="s1">esFinde </span><span class="s2">= </span><span class="s1">hoy </span><span class="s2">== </span><span class="s1">DayOfWeek</span><span class="s2">.</span><span class="s1">SATURDAY </span><span class="s2">|| </span><span class="s1">hoy </span><span class="s2">== </span><span class="s1">DayOfWeek</span><span class="s2">.</span><span class="s1">SUNDAY</span>
+        <span class="s0">return  if </span><span class="s2">(</span><span class="s1">esFinde</span><span class="s2">) {</span>
+            <span class="s1">montoBase </span><span class="s2">* </span><span class="s3">1.03</span>
+        <span class="s2">}</span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s1">montoBase </span><span class="s2">* </span><span class="s3">1.0075</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+<span class="s1">override </span><span class="s0">val </span><span class="s1">name: String </span><span class="s2">= </span><span class="s4">&quot;MasterCard&quot;</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

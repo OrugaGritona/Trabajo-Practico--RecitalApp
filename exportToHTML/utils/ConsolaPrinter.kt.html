@@ -1,0 +1,89 @@
+<html>
+<head>
+<title>ConsolaPrinter.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+ConsolaPrinter.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">utils</span>
+
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">data</span><span class="s2">.</span><span class="s1">Event</span>
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">data</span><span class="s2">.</span><span class="s1">User</span>
+<span class="s1">import main</span><span class="s2">.</span><span class="s1">kotlin</span><span class="s2">.</span><span class="s1">repositories</span><span class="s2">.</span><span class="s1">EventRepository</span>
+
+    <span class="s0">object </span><span class="s1">ConsolaPrinter </span><span class="s2">{</span>
+
+        <span class="s0">fun </span><span class="s1">mostrarCarteleraEventos</span><span class="s2">(</span><span class="s1">eventos: List</span><span class="s2">&lt;</span><span class="s1">Event</span><span class="s2">&gt;) {</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">eventos</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()) {</span>
+                <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">WARNING</span><span class="s0">} </span><span class="s3">No hay eventos disponibles en este momento&quot;</span><span class="s2">)</span>
+            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">\n${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">MUSIC</span><span class="s0">} </span><span class="s3">CARTELERA DE EVENTOS </span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">MUSIC</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;=&quot;</span><span class="s2">.</span><span class="s1">repeat</span><span class="s2">(</span><span class="s4">40</span><span class="s2">))</span>
+                <span class="s1">eventos</span><span class="s2">.</span><span class="s1">forEach </span><span class="s2">{ </span><span class="s1">evento </span><span class="s2">-&gt;</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">MICROPHONE</span><span class="s0">} </span><span class="s3">Artista: </span><span class="s0">${</span><span class="s1">evento</span><span class="s2">.</span><span class="s1">artist</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">LOCATION</span><span class="s0">} </span><span class="s3">Lugar:   </span><span class="s0">${</span><span class="s1">evento</span><span class="s2">.</span><span class="s1">location</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">CALENDAR</span><span class="s0">} </span><span class="s3">Fecha:   </span><span class="s0">${</span><span class="s1">evento</span><span class="s2">.</span><span class="s1">date</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">TICKET</span><span class="s0">} </span><span class="s3">Tickets: </span><span class="s0">${</span><span class="s1">evento</span><span class="s2">.</span><span class="s1">soldTickets</span><span class="s0">}</span><span class="s3">/</span><span class="s0">${</span><span class="s1">evento</span><span class="s2">.</span><span class="s1">localidadesDisponibles</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;-&quot;</span><span class="s2">.</span><span class="s1">repeat</span><span class="s2">(</span><span class="s4">40</span><span class="s2">))</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s0">fun </span><span class="s1">mostrarEntradasDeUsuario</span><span class="s2">(</span><span class="s1">user: User</span><span class="s2">, </span><span class="s1">eventRepo: EventRepository</span><span class="s2">) {</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">user</span><span class="s2">.</span><span class="s1">tickets</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()) {</span>
+                <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">WARNING</span><span class="s0">} </span><span class="s3">Aún no tienes tickets comprados&quot;</span><span class="s2">)</span>
+            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">\n${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">MUSIC</span><span class="s0">} </span><span class="s3">TUS ENTRADAS </span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">MUSIC</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;=&quot;</span><span class="s2">.</span><span class="s1">repeat</span><span class="s2">(</span><span class="s4">40</span><span class="s2">))</span>
+                <span class="s1">user</span><span class="s2">.</span><span class="s1">tickets</span><span class="s2">.</span><span class="s1">forEach </span><span class="s2">{ </span><span class="s1">ticket </span><span class="s2">-&gt;</span>
+                    <span class="s0">val </span><span class="s1">evento </span><span class="s2">= </span><span class="s1">eventRepo</span><span class="s2">.</span><span class="s1">findById</span><span class="s2">(</span><span class="s1">ticket</span><span class="s2">.</span><span class="s1">eventId</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">TICKET</span><span class="s0">} </span><span class="s3">ENTRADA #</span><span class="s0">${</span><span class="s1">ticket</span><span class="s2">.</span><span class="s1">id</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">MICROPHONE</span><span class="s0">} </span><span class="s3">Evento:   </span><span class="s0">${</span><span class="s1">evento?</span><span class="s2">.</span><span class="s1">artist ?: </span><span class="s3">&quot;Desconocido&quot;</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">LOCATION</span><span class="s0">} </span><span class="s3">Lugar:    </span><span class="s0">${</span><span class="s1">evento?</span><span class="s2">.</span><span class="s1">location ?: </span><span class="s3">&quot;N/A&quot;</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">CALENDAR</span><span class="s0">} </span><span class="s3">Fecha:    </span><span class="s0">${</span><span class="s1">evento?</span><span class="s2">.</span><span class="s1">date ?: </span><span class="s3">&quot;N/A&quot;</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">PEOPLE</span><span class="s0">} </span><span class="s3">Cantidad de entradas: </span><span class="s0">${</span><span class="s1">ticket</span><span class="s2">.</span><span class="s1">quantity</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">SEAT</span><span class="s0">} </span><span class="s3">Sección elegida:  </span><span class="s0">${</span><span class="s1">ticket</span><span class="s2">.</span><span class="s1">section</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;-&quot;</span><span class="s2">.</span><span class="s1">repeat</span><span class="s2">(</span><span class="s4">40</span><span class="s2">))</span>
+                <span class="s2">}</span>
+
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+        <span class="s0">fun </span><span class="s1">mostrarEntradasUtilizadas </span><span class="s2">(</span><span class="s1">user: User</span><span class="s2">, </span><span class="s1">eventRepo: EventRepository</span><span class="s2">){</span>
+            <span class="s0">val </span><span class="s1">usadas </span><span class="s2">= </span><span class="s1">user</span><span class="s2">.</span><span class="s1">tickets</span><span class="s2">.</span><span class="s1">filter </span><span class="s2">{ </span><span class="s1">it</span><span class="s2">.</span><span class="s1">usado</span><span class="s2">}</span>
+            <span class="s0">if</span><span class="s2">(</span><span class="s1">usadas</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()) {</span>
+                <span class="s1">println </span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">WARNING</span><span class="s0">} </span><span class="s3">No  tenés entradas utilizadas todavía&quot;</span><span class="s2">)</span>
+            <span class="s2">}</span><span class="s0">else</span><span class="s2">{</span>
+                <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">\n${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">TICKET</span><span class="s0">}</span><span class="s3">ENTRADAS UTILIZADAS </span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">TICKET</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;=&quot;</span><span class="s2">.</span><span class="s1">repeat</span><span class="s2">(</span><span class="s4">40</span><span class="s2">))</span>
+                <span class="s1">usadas</span><span class="s2">.</span><span class="s1">forEach </span><span class="s2">{ </span><span class="s1">ticket </span><span class="s2">-&gt;</span>
+                    <span class="s0">val </span><span class="s1">evento </span><span class="s2">= </span><span class="s1">eventRepo</span><span class="s2">.</span><span class="s1">findById</span><span class="s2">(</span><span class="s1">ticket</span><span class="s2">.</span><span class="s1">eventId</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">TICKET</span><span class="s0">} </span><span class="s3">ENTRADA #</span><span class="s0">${</span><span class="s1">ticket</span><span class="s2">.</span><span class="s1">id</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">MICROPHONE</span><span class="s0">} </span><span class="s3">Evento:   </span><span class="s0">${</span><span class="s1">evento?</span><span class="s2">.</span><span class="s1">artist ?: </span><span class="s3">&quot;Desconocido&quot;</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">LOCATION</span><span class="s0">} </span><span class="s3">Lugar:    </span><span class="s0">${</span><span class="s1">evento?</span><span class="s2">.</span><span class="s1">location ?: </span><span class="s3">&quot;N/A&quot;</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">CALENDAR</span><span class="s0">} </span><span class="s3">Fecha:  </span><span class="s0">${</span><span class="s1">evento?</span><span class="s2">.</span><span class="s1">date ?: </span><span class="s3">&quot;N/A&quot;</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">SEAT</span><span class="s0">} </span><span class="s3">Sección:  </span><span class="s0">${</span><span class="s1">ticket</span><span class="s2">.</span><span class="s1">section</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">${</span><span class="s1">Emojis</span><span class="s2">.</span><span class="s1">CHECK</span><span class="s0">}  </span><span class="s3">Estado:   </span><span class="s0">${</span><span class="s1">ticket</span><span class="s2">.</span><span class="s1">usado</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;-&quot;</span><span class="s2">.</span><span class="s1">repeat</span><span class="s2">(</span><span class="s4">40</span><span class="s2">))</span>
+
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+
+        <span class="s2">}</span>
+
+
+    <span class="s2">}</span>
+
+</pre>
+</body>
+</html>
